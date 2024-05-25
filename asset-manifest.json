@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/react-modal-form-fields-application/static/css/main.d5289b2f.css",
+    "main.js": "/react-modal-form-fields-application/static/js/main.b704c9b8.js",
+    "static/js/453.c9c7a7d2.chunk.js": "/react-modal-form-fields-application/static/js/453.c9c7a7d2.chunk.js",
+    "index.html": "/react-modal-form-fields-application/index.html",
+    "main.d5289b2f.css.map": "/react-modal-form-fields-application/static/css/main.d5289b2f.css.map",
+    "main.b704c9b8.js.map": "/react-modal-form-fields-application/static/js/main.b704c9b8.js.map",
+    "453.c9c7a7d2.chunk.js.map": "/react-modal-form-fields-application/static/js/453.c9c7a7d2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d5289b2f.css",
+    "static/js/main.b704c9b8.js"
+  ]
+}
