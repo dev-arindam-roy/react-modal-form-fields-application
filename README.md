@@ -1,70 +1,212 @@
-# Getting Started with Create React App
+# React Modal - Form Fields
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```js
+npm install react-bootstrap bootstrap react-icons --save
+npm install gh-pages --save-dev
+"homepage": "https://dev-arindam-roy.github.io/react-bootstrap-form-fields-registration",
+"scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+}
+```
 
-## Available Scripts
+```js
+import React, { useState } from "react";
+import {
+  FaPlus,
+  FaRegTrashAlt,
+  FaRegTimesCircle,
+  FaRegSave,
+} from "react-icons/fa";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import Table from 'react-bootstrap/Table';
 
-In the project directory, you can run:
+const App = () => {
+  const [modal, setModal] = useState(false);
+  const [user, setUser] = useState({ name: "", email: "", mobile: "" });
+  const [userList, setUserList] = useState([]);
+  const [isFormValidate, setIsFormValidate] = useState(false);
+  const modalHandleClose = () => {
+    formReset();
+    setModal(false);
+  };
+  const modalHandleShow = () => {
+    setModal(true);
+  };
+  const addUserFormSubmitHandler = () => {
+    if (user.name !== "" && user.email !== "" && user.mobile !== "") {
+      setUserList([...userList, user]);
+      formReset();
+      setModal(false);
+    }
+  };
+  const checkFieldValidation = () => {
+    if (user.name === "" || user.email === "" || user.mobile === "") {
+      setIsFormValidate(false);
+    } else {
+      setIsFormValidate(true);
+    }
+  }
+  const formReset = () => {
+    setUser({ name: "", email: "", mobile: "" });
+    setIsFormValidate(false);
+  }
+  const deleteUserListHandler = () => {
+    setUserList([]);
+    formReset();
+  }
+  return (
+    <>
+      <Container fluid="md">
+        <Row className="mt-3">
+          <Col md={{ span: 8, offset: 2 }}>
+            <Card>
+              <Card.Header>
+                <Row>
+                  <Col md={9}>
+                    <h3>Users: ({userList.length})</h3>
+                  </Col>
+                  <Col md={3} style={{ textAlign: "right" }}>
+                    <Button variant="primary" onClick={modalHandleShow}>
+                      <FaPlus /> Add User
+                    </Button>
+                  </Col>
+                </Row>
+              </Card.Header>
+              <Card.Body>
+                <Table striped bordered hover size="sm">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>NAME</th>
+                      <th>EMAIL ID</th>
+                      <th>MOBILE NO</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      userList.length > 0 && (
+                        userList.map((item, index) => {
+                          return (
+                            <tr key={"userTr" + index}>
+                              <th>{index + 1}</th>
+                              <td>{item.name}</td>
+                              <td>{item.email}</td>
+                              <td>{item.mobile}</td>
+                            </tr>
+                          )
+                        })
+                      )
+                    }
+                    {
+                      userList.length === 0 && (
+                        <tr>
+                          <td colSpan={4}>No users found!</td>
+                        </tr>
+                      )
+                    }
+                  </tbody>
+                </Table>
+              </Card.Body>
+              <Card.Footer style={{ textAlign: "right" }}>
+                {
+                  userList.length > 0 && (
+                    <Button variant="danger" onClick={deleteUserListHandler}>
+                      <FaRegTrashAlt /> Delete All
+                    </Button>
+                  )
+                }
+              </Card.Footer>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
 
-### `npm start`
+      <Modal
+        show={modal}
+        backdrop="static"
+        keyboard={false}
+        size="mb"
+        aria-labelledby="contained-user-modal-title-vcenter"
+        centered
+        onHide={modalHandleClose}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-user-modal-title-vcenter">
+            <label>
+              <FaPlus /> Add New User
+            </label>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12} xs={12}>
+              <Form id="addUserModalForm">
+                <Form.Group className="mb-3" controlId="forName">
+                  <Form.Label>
+                    Name: <em>*</em>
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="name"
+                    placeholder="Enter Name"
+                    required
+                    value={user.name}
+                    onChange={(e) => setUser({...user, name: e.target.value})}
+                    onBlur={checkFieldValidation}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="forName">
+                  <Form.Label>
+                    Email: <em>*</em>
+                  </Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    placeholder="Enter Email Id"
+                    required
+                    value={user.email}
+                    onChange={(e) => setUser({...user, email: e.target.value})}
+                    onBlur={checkFieldValidation}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="forName">
+                  <Form.Label>
+                    Mobile: <em>*</em>
+                  </Form.Label>
+                  <Form.Control
+                    type="tel"
+                    name="mobile"
+                    placeholder="Enter Mobile No"
+                    required
+                    value={user.mobile}
+                    onChange={(e) => setUser({...user, mobile: e.target.value})}
+                    onBlur={checkFieldValidation}
+                  />
+                </Form.Group>
+              </Form>
+            </Col>
+          </Row>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={modalHandleClose}>
+            <FaRegTimesCircle /> Close
+          </Button>
+          <Button variant="primary" onClick={addUserFormSubmitHandler} className={((!isFormValidate) ? ' disabled' : ' ')}>
+            <FaRegSave /> Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+export default App;
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
