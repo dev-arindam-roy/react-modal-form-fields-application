@@ -3,7 +3,7 @@
 ```js
 npm install react-bootstrap bootstrap react-icons --save
 npm install gh-pages --save-dev
-"homepage": "https://dev-arindam-roy.github.io/react-bootstrap-form-fields-registration",
+"homepage": "https://dev-arindam-roy.github.io/react-modal-form-fields-application",
 "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
