@@ -10,6 +10,9 @@ npm install gh-pages --save-dev
 }
 ```
 
+## Check It!
+[https://dev-arindam-roy.github.io/react-modal-form-fields-application/](https://dev-arindam-roy.github.io/react-modal-form-fields-application/)
+
 ```js
 import React, { useState } from "react";
 import {
